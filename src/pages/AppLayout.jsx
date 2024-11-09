@@ -1,6 +1,6 @@
 import MainContainer from "../components/MainContainer";
 import User from "../components/User";
-import ProtectedRoute from "./pages/ProtectedRoute";
+import ProtectedRoute  from "../pages/ProtectedRoute";
 
 import styles from "./AppLayout.module.css";
 
