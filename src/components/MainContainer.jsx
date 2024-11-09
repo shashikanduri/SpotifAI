@@ -1,5 +1,4 @@
- import { Outlet } from "react-router-dom";
-import AppNav from "./AppNav";
+import CityList from "./CityList";
 import Logo from "./Logo";
 import styles from "./MainContainer.module.css";
 
@@ -7,9 +6,8 @@ function MainContainer() {
   return (
     <div className={styles.sidebar}>
       <Logo />
-      <AppNav />
 
-      <Outlet />
+      <CityList />
 
       <footer className={styles.footer}>
         <p className={styles.copyright}>
