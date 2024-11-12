@@ -5,8 +5,7 @@ import styles from "./MainContainer.module.css";
 function MainContainer() {
   return (
     <div className={styles.sidebar}>
-      <Logo />
-
+      
       <CityList />
 
       <footer className={styles.footer}>

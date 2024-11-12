@@ -1,8 +1,9 @@
 .app {
-  height: 100vh;
   overscroll-behavior-y: none;
   background-color: var(--color-dark--1);
   display: flex;
   position: relative;
-  justify-content: center;
+  justify-content: space-between;
+  flex-direction: column;
+  height: 100vh;
 }
