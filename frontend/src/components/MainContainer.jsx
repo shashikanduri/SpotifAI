@@ -1,19 +1,15 @@
 import CityList from "./CityList";
-import Logo from "./Logo";
-import styles from "./MainContainer.module.css";
+import styles from '../pages/Login.module.css';;
+import PageNav from "./PageNav";
 
 function MainContainer() {
   return (
-    <div className={styles.sidebar}>
-      
-      <CityList />
-
-      <footer className={styles.footer}>
-        <p className={styles.copyright}>
-          &copy; Copyright {new Date().getFullYear()} by WorldWise Inc.
-        </p>
-      </footer>
-    </div>
+    <main className={styles.homepage}>
+      <PageNav />
+      <section>
+        <CityList />
+      </section>
+    </main>
   );
 }
 

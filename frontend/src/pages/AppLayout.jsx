@@ -1,11 +1,10 @@
-import { Navigate, useNavigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import MainContainer from "../components/MainContainer";
-import User from "../components/User";
 import { useAuth } from "../contexts/AuthContext";
+import styles from "./AppLayout.module.css";
 
 function AppLayout() {
-  
-  const { auth } = useAuth();
+const { auth } = useAuth();
 
   if (!auth.isAuthenticated){
     return <Navigate to = "/" />
@@ -14,7 +13,6 @@ function AppLayout() {
   return (
     <>
       <MainContainer />
-      <User />
     </>
   );
 }

@@ -4,9 +4,8 @@ import styles from "./AppLayout.module.css";
 
 const MainLayout = () => {
   return (
-    <div className = {styles.app}>
-        <PageNav />
-        <Outlet />
+    <div>
+      <Outlet />
     </div>
   );
 };

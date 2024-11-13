@@ -13,14 +13,14 @@ function App() {
   const router = createBrowserRouter(
     [
       {
-        path : "/",
-        element : <MainLayout />,
-        children : [
-          { index : true, element : <Login /> },
-          { path : "app", element : <AppLayout /> }
+        path: "/",
+        element: <MainLayout />,
+        children: [
+          { index: true, element: <Login /> },
+          { path: "app", element: <AppLayout /> }
         ]
       },
-      { path : '*', element : <PageNotFound />}
+      { path: '*', element: <PageNotFound /> }
     ]
   );
 
