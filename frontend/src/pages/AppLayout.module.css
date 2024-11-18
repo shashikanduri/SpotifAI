@@ -1,8 +1,0 @@
-.app {
-  background-color: var(--color-dark--1);
-  display: flex;
-  position: relative;
-  justify-content: left;
-  flex-direction: column;
-  height: 100vh;
-}

@@ -1,10 +1,9 @@
 
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
-
-import Login from "./pages/Login";
 import AppLayout from "./pages/AppLayout";
 import PageNotFound from "./pages/PageNotFound";
 import MainLayout from "./pages/MainLayout";
+import Home from "./pages/Home";
 
 
 
@@ -16,7 +15,7 @@ function App() {
         path: "/",
         element: <MainLayout />,
         children: [
-          { index: true, element: <Login /> },
+          { index: true, element: <Home /> },
           { path: "app", element: <AppLayout /> }
         ]
       },

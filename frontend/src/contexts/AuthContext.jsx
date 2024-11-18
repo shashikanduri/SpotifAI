@@ -29,7 +29,7 @@ function AuthProvider({ children }) {
   }
 
   return (
-    <AuthContext.Provider value = {{ auth, setAuth, logout, updateSpotifyAuth }}>
+    <AuthContext.Provider value = {{ auth, logout, updateSpotifyAuth }}>
       {children}
     </AuthContext.Provider>
   );

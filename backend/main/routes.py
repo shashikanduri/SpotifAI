@@ -10,7 +10,7 @@ def get_client():
         "client_id" : current_app.config['CLIENT_ID'],
         "scope" : current_app.config['SPOTIFY_SCOPES'],
         "spotify_auth_url" : current_app.config['SPOTIFY_AUTH_URL']
-    })
+    }), 200
 
 @spotify_api.route('/playlists')
 def getUserPlaylists():

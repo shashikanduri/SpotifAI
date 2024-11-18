@@ -1,23 +1,21 @@
 import { useEffect } from "react";
 import axios from "axios";
-import { Navigate, useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams, Navigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
-import styles from './Login.module.css';
-import PageNav from "../components/PageNav";
 
-export default function Login() {
+
+const Home = () => {
 
   const [params] = useSearchParams();
   const { auth, updateSpotifyAuth } = useAuth();
   const navigate = useNavigate();
 
   async function handleSubmit(e) {
-    e.preventDefault();
 
     // take user to spotify auth page 
     const response = await axios.get('http://127.0.0.1:5000/get-client');
     if (response.status === 200 && response.data !== null) {
-
+      
       // build spotify auth url for spotify login
       const base_url = response.data?.spotify_auth_url ?? null;
       if (base_url !== null) {
@@ -55,23 +53,34 @@ export default function Login() {
     []
   );
 
-  if (auth.isAuthenticated) return <Navigate to = "/app" />
+  if (auth.isAuthenticated) return <Navigate to="/app" />
 
   return (
-    <main className={styles.homepage}>
-      <PageNav />
-      <section>
-        <h1>
-          SpotifAI
+    <section className="text-primary w-full flex justify-center">
+      <div className="w-[80%] bg-white rounded-xl h-fit overflow-hidden flex flex-col lg:flex-row px-4 md:px-8 py-6">
+
+        <div className="text-sm md:text-base font-semibold my-4 text-gray-600">
+          <h2>
+            Spotify playlists come to life! Log in with your Spotify account to unlock powerful playlist analysis
+            powered by advanced language models. Discover trends, gain insights, and enhance your listening experience like never before.
+            Ready to explore the music behind the numbers? Log in now and start analyzing!"
+            <br />
+            <br />
+          </h2>
           <br />
-        </h1>
-        <h2>
-          Analyze you spotify music collection with LLMs.
-        </h2>
-        <button onClick={handleSubmit} className="cta">
-          Login with Spotify
-        </button>
-      </section>
-    </main>
+
+          <button
+            className="rounded-full px-10 py-2 bg-secondary text-white hover:bg-primary/80 duration-100"
+            onClick = {handleSubmit}
+          >
+            Login with Spotify
+          </button>
+
+          <br />
+        </div>
+      </div>
+    </section>
   );
-}
+};
+
+export default Home;
