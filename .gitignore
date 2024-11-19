@@ -2,9 +2,17 @@
 
 # dependencies
 frontend/node_modules
+backend/instance
 /.pnp
 .pnp.js
 
+
+.vscode/*
+.vscode/
+.vscode
+backend/__pycache__/*
+backend/__pycache__/
+backend/__pycache__
 # testing
 /coverage
 

@@ -1,7 +1,8 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate, useSearchParams, Navigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
+axios.defaults.withCredentials = true;
 
 
 const Home = () => {
@@ -9,6 +10,7 @@ const Home = () => {
   const [params] = useSearchParams();
   const { auth, updateSpotifyAuth } = useAuth();
   const navigate = useNavigate();
+  const [accessToken, setAccessToken] = useState(false);
 
   async function handleSubmit(e) {
 
@@ -37,18 +39,35 @@ const Home = () => {
     }
   }
 
+
+
   useEffect(
-    () => function () {
-      if (!auth.isAuthenticated) {
-        const code = params.get("code");
-        if (code) {
-          updateSpotifyAuth("shashi");
+    () => {
+      
+      // define an async function for signin after receiving the code from spotify
+      async function signin(){
+        if (!auth.isAuthenticated) {
+          const code = params.get("code");
+          console.log()
+          // only signin once when access token process is done
+          if (code && !accessToken) {
+            const response = await axios.post('http://127.0.0.1:5000/signin', { code : code });
+            console.log(response);
+            if (response.status === 200){
+              updateSpotifyAuth("shashi");
+              setAccessToken(true);
+              navigate("/app");
+            }
+          }
+        }
+        else {
           navigate("/app");
         }
       }
-      else {
-        navigate("/app");
-      }
+
+      // call the above function
+      signin();
+
     },
     []
   );
