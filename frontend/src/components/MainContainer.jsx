@@ -1,5 +1,6 @@
 
 function MainContainer() {
+  console.log(document.cookie);
 
   return (
     <section className="text-primary w-full flex justify-center">

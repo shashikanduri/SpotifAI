@@ -1,6 +1,7 @@
 from datetime import timedelta
 
 class Config:
+
     SQLALCHEMY_DATABASE_URI = "sqlite:///example.db"
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     CLIENT_ID = "a57beb060c7a4a00b0794bfe983fede8"
@@ -13,3 +14,6 @@ class Config:
     JWT_ACCESS_TOKEN_EXPIRES = timedelta(days = 1)
     JWT_COOKIE_SECURE = False
     JWT_TOKEN_LOCATION = ["cookies"]
+    # JWT_COOKIE_SAMESITE = 'None'
+    JWT_ACCESS_COOKIE_NAME = "sp_access_token"
+    JWT_ACCESS_CSRF_COOKIE_NAME = "sp_csrf"

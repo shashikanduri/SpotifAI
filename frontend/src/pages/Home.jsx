@@ -11,11 +11,18 @@ const Home = () => {
   const { auth, updateSpotifyAuth } = useAuth();
   const navigate = useNavigate();
   const [accessToken, setAccessToken] = useState(false);
+  const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS"
+  }
+  
 
   async function handleSubmit(e) {
 
     // take user to spotify auth page 
-    const response = await axios.get('http://127.0.0.1:5000/get-client');
+    const response = await axios.get('http://localhost:5001/get-client');
     if (response.status === 200 && response.data !== null) {
       
       // build spotify auth url for spotify login
@@ -51,7 +58,7 @@ const Home = () => {
           console.log()
           // only signin once when access token process is done
           if (code && !accessToken) {
-            const response = await axios.post('http://127.0.0.1:5000/signin', { code : code });
+            const response = await axios.post('http://localhost:5001/signin', { code : code }, { headers : headers });
             console.log(response);
             if (response.status === 200){
               updateSpotifyAuth("shashi");

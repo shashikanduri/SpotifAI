@@ -6,6 +6,9 @@ from jwt import ExpiredSignatureError
 class UnAuthorized(Exception):
     pass
 
+class SpotifyError(Exception):
+    def __init__(self, error_dict):
+        self.error
 
 class APIError(Exception):
 
@@ -32,6 +35,10 @@ class APIError(Exception):
         if isinstance(exception, UnAuthorized) or isinstance(exception, (NoAuthorizationError, CSRFError, ExpiredSignatureError)):
             self.status_code = 401
             self.message = error
+
+        if isinstance(exception, SpotifyError):
+            self.status_code = exception.error_dict['status']
+            self.message = exception.error_dict['message']
 
         
 
