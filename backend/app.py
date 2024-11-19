@@ -24,29 +24,37 @@ def handle_exception(err):
 
 
 # VALIDATE AND PROCESS EVERY INCOMING REQUEST
-# @app.before_request
-# def before_request_tasks():
+@app.before_request
+def before_request_tasks():
 
-#     try:
-        
-#         if app.config['USE_JWT'] and request.endpoint in app.config['PFAS_PROTECTED_ENDPOINTS']:
-#             # verify JWT
-#             jwt = verify_jwt_in_request()
+    try:
 
-#             # in case of options request, the server listens but does not process anything and the jwt wont exist
-#             if jwt:
-#                 jwt_header, jwt_data = jwt
+        if app.config['USE_JWT'] and request.endpoint in app.config['PROTECTED_ENDPOINTS']:
+            # verify JWT
+            jwt = verify_jwt_in_request()
 
-        
-#     except Exception as e:
-#         api_exception_response, status_code = handle_exception(APIError(e, e.__str__(), traceback.format_tb(e.__traceback__)))
-#         return api_exception_response, status_code
+            # in case of options request, the server listens but does not process anything and the jwt wont exist
+            if jwt:
+                jwt_header, jwt_data = jwt
+                pprint(jwt_data)
+
+
+    except Exception as e:
+        api_exception_response, status_code = handle_exception(APIError(e, e.__str__(), traceback.format_tb(e.__traceback__)))
+        return api_exception_response, status_code
     
     
 
 # # PROCESSING AFTER REQUEST IS FINISHED
 # @app.after_request
 # def after_request_tasks(response):
+    
+#     # logging
+#     if response.status_code not in [200, 201]:
+#         log_message = response.json["message"] if response.json else ""
+#         app.logger.error(f"REQUEST COULD NOT BE PROCESSED WITH THE FOLLOWING MESSAGE: {log_message}")
+#     else:
+#         app.logger.info("REQUEST PROCESSED SUCCESSFULLY")
 
 #     # refresh expiring jwts
 #     if app.config['USE_JWT']:
