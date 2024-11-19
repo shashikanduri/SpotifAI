@@ -34,11 +34,11 @@ def signin():
         # get access token from spotify
         auth_data = utils.get_access_token(request)
 
-        # get user info
-        user_info = utils.get_user_info(auth_data['access_token'])
+        # get dashboard info
+        dashboard_info = utils.get_dashboard_info(auth_data['access_token'])
 
         if auth_data:
-            response['user_info'] = user_info
+            response['data'] = dashboard_info
             response = jsonify(response)
 
         # set JWT cookies with the access token for frontend
