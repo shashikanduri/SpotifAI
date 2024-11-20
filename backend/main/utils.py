@@ -34,7 +34,7 @@ def get_access_token(request : Request) -> dict:
     raise SpotifyError(spotify_response_data)
     
 
-# get user info
+# get dashboard info
 def get_dashboard_info(access_token):
 
     response = {
