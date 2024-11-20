@@ -46,28 +46,21 @@ def before_request_tasks():
     
 
 # # PROCESSING AFTER REQUEST IS FINISHED
-# @app.after_request
-# def after_request_tasks(response):
-    
-#     # logging
-#     if response.status_code not in [200, 201]:
-#         log_message = response.json["message"] if response.json else ""
-#         app.logger.error(f"REQUEST COULD NOT BE PROCESSED WITH THE FOLLOWING MESSAGE: {log_message}")
-#     else:
-#         app.logger.info("REQUEST PROCESSED SUCCESSFULLY")
+@app.after_request
+def after_request_tasks(response):
 
-#     # refresh expiring jwts
-#     if app.config['USE_JWT']:
-#         jwt_data = getattr(request, "jwt_data", None)
+    # refresh expiring jwts
+    if app.config['USE_JWT']:
+        jwt_data = getattr(request, "jwt_data", None)
 
-#         if jwt_data:
-#             # check expiry
-#             exp_timestamp = jwt_data['exp']
-#             now = datetime.now()
-#             target_timestamp = int(datetime.timestamp(now))
-#             if target_timestamp > exp_timestamp:
-#                 access_token = create_access_token(identity = get_jwt_identity())
-#                 set_access_cookies(response, access_token)
+        if jwt_data:
+            # check expiry
+            exp_timestamp = jwt_data['exp']
+            now = datetime.now()
+            target_timestamp = int(datetime.timestamp(now))
+            if target_timestamp > exp_timestamp:
+                access_token = create_access_token(identity = get_jwt_identity())
+                set_access_cookies(response, access_token)
 
-#     return response
+    return response
     

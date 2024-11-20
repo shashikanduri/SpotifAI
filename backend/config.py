@@ -9,7 +9,7 @@ class Config:
     SPOTIFY_SCOPES = "user-read-currently-playing playlist-read-private playlist-modify-private user-read-email user-top-read"
     SPOTIFY_AUTH_URL = "https://accounts.spotify.com/authorize"
     USE_JWT = True
-    PFAS_PROTECTED_ENDPOINTS = ['spotify_api.dashboard']
+    PROTECTED_ENDPOINTS = ['spotify_api.dashboard']
     JWT_SECRET_KEY = "aNand_SarFrazaHmadMasurkar"
     JWT_ACCESS_TOKEN_EXPIRES = timedelta(days = 1)
     JWT_COOKIE_SECURE = False
