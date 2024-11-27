@@ -16,13 +16,18 @@ function AuthProvider({ children }) {
 
   const [auth, setAuth] = useState(isUserLoggedIn());
 
+  function login(){
+    localStorage.setItem("isAuthenticated", true);
+    setAuth((prev) => ({ ...prev, isAuthenticated : true}));
+  }
+
   function logout() {
     localStorage.removeItem("isAuthenticated");
     setAuth((prev) => ({ ...prev, user: null, isAuthenticated : false}));
   }
 
   return (
-    <AuthContext.Provider value = {{ auth, logout, setAuth }}>
+    <AuthContext.Provider value = {{ auth, login, logout, setAuth }}>
       {children}
     </AuthContext.Provider>
   );

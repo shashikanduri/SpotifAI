@@ -8,7 +8,7 @@ axios.defaults.withCredentials = true;
 const Home = () => {
 
   const [params] = useSearchParams();
-  const { auth, setAuth } = useAuth();
+  const { auth, login } = useAuth();
   const navigate = useNavigate();
   const [accessToken, setAccessToken] = useState(false);
   const headers = {
@@ -51,15 +51,15 @@ const Home = () => {
       
       // define an async function for signin after receiving the code from spotify
       async function signin(){
+        
         if (!auth.isAuthenticated) {
           const code = params.get("code");
         
           // only signin once when access token process is done
           if (code && !accessToken) {
             const response = await axios.post('http://localhost:5001/signin', { code : code }, { headers : headers });
-            console.log(response);
             if (response.status === 200){
-              setAuth((prev) => ({ ...prev, isAuthenticated : true}));
+              login();
               setAccessToken(true);
               navigate("/app");
             }
