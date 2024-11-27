@@ -1,5 +1,4 @@
-import { Navigate } from "react-router-dom";
-import MainContainer from "../components/MainContainer";
+import { Navigate, Outlet } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 
 function AppLayout() {
@@ -11,7 +10,7 @@ const { auth } = useAuth();
 
   return (
     <>
-      <MainContainer />
+      <Outlet />
     </>
   );
 }

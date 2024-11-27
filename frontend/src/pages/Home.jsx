@@ -8,7 +8,7 @@ axios.defaults.withCredentials = true;
 const Home = () => {
 
   const [params] = useSearchParams();
-  const { auth, updateSpotifyAuth } = useAuth();
+  const { auth, setAuth } = useAuth();
   const navigate = useNavigate();
   const [accessToken, setAccessToken] = useState(false);
   const headers = {
@@ -46,8 +46,6 @@ const Home = () => {
     }
   }
 
-
-
   useEffect(
     () => {
       
@@ -55,13 +53,13 @@ const Home = () => {
       async function signin(){
         if (!auth.isAuthenticated) {
           const code = params.get("code");
-          console.log()
+        
           // only signin once when access token process is done
           if (code && !accessToken) {
             const response = await axios.post('http://localhost:5001/signin', { code : code }, { headers : headers });
             console.log(response);
             if (response.status === 200){
-              updateSpotifyAuth("shashi");
+              setAuth((prev) => ({ ...prev, isAuthenticated : true}));
               setAccessToken(true);
               navigate("/app");
             }
@@ -79,7 +77,7 @@ const Home = () => {
     []
   );
 
-  if (auth.isAuthenticated) return <Navigate to="/app" />
+  if (auth?.isAuthenticated) return <Navigate to = "/app" />;
 
   return (
     <section className="text-primary w-full flex justify-center">

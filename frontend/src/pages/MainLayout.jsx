@@ -8,7 +8,7 @@ const MainLayout = () => {
     <main className="h-fit min-h-screen w-screen flex flex-col justify-between overflow-x-hidden bg-neutral">
       <Header />
       <div className="main-container flex-grow">
-        <div className="content-container py-[2px] px-[10px] sm:px-[50px] md:px-[100px] mb-8">
+        <div className="content-container py-[2px] px-[10px] sm:px-[50px] md:px-[100px] mb-8 flex flex-col gap-5">
           <Outlet />
         </div>
       </div>

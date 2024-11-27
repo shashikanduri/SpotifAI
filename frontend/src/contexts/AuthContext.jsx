@@ -3,7 +3,7 @@ import { createContext, useContext, useState } from "react";
 const isUserLoggedIn = () => {
   const spotify_auth_status = localStorage.getItem("isAuthenticated");
   const isAuthenticated = spotify_auth_status ? spotify_auth_status : false;
-  const user = isAuthenticated ? JSON.parse(localStorage.getItem("user")) : null;
+  const user = isAuthenticated ? localStorage.getItem("user") : null;
 
   return {user, isAuthenticated};
 };
@@ -16,20 +16,13 @@ function AuthProvider({ children }) {
 
   const [auth, setAuth] = useState(isUserLoggedIn());
 
-  function updateSpotifyAuth(name){
-    setAuth((prev) => ({ ...prev, user: {name : "shashi"}, isAuthenticated : true}));
-    localStorage.setItem("isAuthenticated", true);
-    localStorage.setItem("user_name", name);
-  }
-
   function logout() {
     localStorage.removeItem("isAuthenticated");
-    localStorage.removeItem("user_name");
-    setAuth((prev) => ({ ...prev, user: {}, isAuthenticated : false}));
+    setAuth((prev) => ({ ...prev, user: null, isAuthenticated : false}));
   }
 
   return (
-    <AuthContext.Provider value = {{ auth, logout, updateSpotifyAuth }}>
+    <AuthContext.Provider value = {{ auth, logout, setAuth }}>
       {children}
     </AuthContext.Provider>
   );
