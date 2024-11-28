@@ -39,7 +39,7 @@ def signin():
             response['data'] = "signed in !"
             response = jsonify(response)
 
-        # set JWT cookies with the access token for frontend
+        # set JWT cookies with the access token for frontend 
         if current_app.config["USE_JWT"]:
             access_token = create_access_token(identity = auth_data['access_token'], additional_claims = auth_data)
             set_access_cookies(response, access_token, max_age = 5000000)
