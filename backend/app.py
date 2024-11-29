@@ -36,6 +36,17 @@ def before_request_tasks():
             # in case of options request, the server listens but does not process anything and the jwt wont exist
             if jwt:
                 jwt_header, jwt_data = jwt
+                jwt_data['refreshed'] = False
+                
+                # check access token expiry
+                sp_oauth = app.config['SP_OAUTH']
+                if sp_oauth.is_token_expired(jwt_data):
+                    new_token_info = sp_oauth.refresh_access_token(jwt_data['refresh_token'])
+                    new_token_info['user_id'] = jwt_data['user_id']
+                    new_token_info['user_name'] = jwt_data['user_name']
+                    jwt_data = new_token_info
+                    jwt_data['refreshed'] = True
+
                 request.jwt_data = jwt_data
 
 
@@ -52,15 +63,13 @@ def after_request_tasks(response):
     # refresh expiring jwts/access_tokens
     if app.config['USE_JWT']:
         jwt_data = getattr(request, "jwt_data", None)
-        new_token_info = None
 
         if jwt_data:
 
-            # check access token expiry
-            sp_oauth = app.config['SP_OAUTH']
-            if sp_oauth.is_token_expired(jwt_data):
-                new_token_info = sp_oauth.refresh_access_token(jwt_data['refresh_token'])
-                access_token = create_access_token(identity = new_token_info['access_token'], additional_claims = new_token_info)
+            # if access token is refreshed, set new cookies
+            if jwt_data['refreshed']:
+                jwt_data['refreshed'] = False
+                access_token = create_access_token(identity = jwt_data['access_token'], additional_claims = jwt_data)
                 set_access_cookies(response, access_token)
 
             # check jwt expiry
@@ -69,9 +78,7 @@ def after_request_tasks(response):
             target_timestamp = int(datetime.timestamp(now))
             if target_timestamp > exp_timestamp:
                 # if both jwt and access_token expire
-                if new_token_info:
-                    access_token = create_access_token(identity = new_token_info['access_token'], additional_claims = new_token_info)
-                else:
+                if not jwt_data['refreshed']:
                     access_token = create_access_token(identity = get_jwt_identity())
 
                 set_access_cookies(response, access_token)
