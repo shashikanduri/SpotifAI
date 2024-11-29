@@ -5,7 +5,7 @@ import PageNotFound from "./pages/PageNotFound";
 import MainLayout from "./pages/MainLayout";
 import Home from "./pages/Home";
 import Dashboard from "./components/Dashboard";
-import Callback from "./Callback";
+import Callback from "./pages/Callback";
 
 
 

@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import { FaCircleUser } from "react-icons/fa6";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
-
 
 
 const Nav = () => {
@@ -37,7 +36,7 @@ const Nav = () => {
                   } lg:pt-0`}
                 >
 
-                  { auth.user && <li> <p>Welcome, {auth.user}</p> </li> }
+                  { auth.user && <li> <p className = "font-bold">Welcome, {auth.user}</p> </li> }
                   <li>
                       { auth.isAuthenticated && 
                       <button 

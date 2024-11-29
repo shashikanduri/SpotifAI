@@ -18,9 +18,8 @@ def get_client():
         "spotify_auth_url" : current_app.config['SPOTIFY_AUTH_URL']
     }), 200
 
-
 # receive authorization code from spotify login
-@spotify_api.route("/signin", methods = ["POST"])
+@spotify_api.route("/signin", methods = ['POST'])
 @require_params("code")
 def signin():
 
@@ -32,11 +31,11 @@ def signin():
         }
 
         # get access token from spotify
-        auth_data = utils.get_access_token(request)
-
+        auth_data = utils.get_access_token(request.json['code'])
 
         if auth_data:
-            response['data'] = "signed in !"
+            response['message'] = "signed in !"
+            response['data'] = { 'user_name' : auth_data['user_name'] }
             response = jsonify(response)
 
         # set JWT cookies with the access token for frontend 
@@ -52,9 +51,9 @@ def signin():
 
 
 # receive authorization code from spotify login
-@spotify_api.route("/dashboard", methods = ["POST"])
+@spotify_api.route("/dashboard", methods = ['GET'])
 def dashboard():
-
+    
     try:
         response = {
             "message": "",
@@ -63,7 +62,7 @@ def dashboard():
         }
 
         # get dashboard info
-        dashboard_info = utils.get_dashboard_info(request.json['access_token'])
+        dashboard_info = utils.get_dashboard_info(request.jwt_data)
         response['data'] = dashboard_info
         response = jsonify(response)
 

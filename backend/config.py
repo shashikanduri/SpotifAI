@@ -1,4 +1,5 @@
 from datetime import timedelta
+from spotipy import SpotifyOAuth
 
 class Config:
 
@@ -16,3 +17,9 @@ class Config:
     JWT_TOKEN_LOCATION = ["cookies"]
     JWT_ACCESS_COOKIE_NAME = "sp_access_token"
     JWT_ACCESS_CSRF_COOKIE_NAME = "sp_csrf"
+    SP_OAUTH = SpotifyOAuth(
+                            client_id = CLIENT_ID,
+                            client_secret = CLIENT_SECRET,
+                            redirect_uri = "http://localhost:5173/callback",
+                            scope = SPOTIFY_SCOPES
+                        )

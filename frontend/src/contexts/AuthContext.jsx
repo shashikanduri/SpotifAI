@@ -16,13 +16,14 @@ function AuthProvider({ children }) {
 
   const [auth, setAuth] = useState(isUserLoggedIn());
 
-  function login(){
+  function login(userName){
     localStorage.setItem("isAuthenticated", true);
-    setAuth((prev) => ({ ...prev, isAuthenticated : true}));
+    localStorage.setItem("user", userName);
+    setAuth((prev) => ({ ...prev, user : userName, isAuthenticated : true}));
   }
 
   function logout() {
-    localStorage.removeItem("isAuthenticated");
+    localStorage.removeItem("isAuthenticated"); 
     setAuth((prev) => ({ ...prev, user: null, isAuthenticated : false}));
   }
 

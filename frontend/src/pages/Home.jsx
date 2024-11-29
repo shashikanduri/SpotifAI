@@ -7,17 +7,7 @@ axios.defaults.withCredentials = true;
 
 const Home = () => {
 
-  const [params] = useSearchParams();
-  const { auth, login } = useAuth();
-  const navigate = useNavigate();
-  const [accessToken, setAccessToken] = useState(false);
-  const headers = {
-    "Content-Type": "application/json",
-    "Accept": "application/json",
-    "Access-Control-Allow-Origin": "*",
-    "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS"
-  }
-  
+  const { auth } = useAuth();
 
   async function handleSubmit(e) {
 
@@ -31,7 +21,7 @@ const Home = () => {
         const data = {
           client_id: response.data.client_id,
           response_type: "code",
-          redirect_uri: "http://localhost:5173",
+          redirect_uri: "http://localhost:5173/callback",
           state: "shashi",
           scope: response.data.scope,
           show_dialog: true
@@ -46,36 +36,6 @@ const Home = () => {
     }
   }
 
-  useEffect(
-    () => {
-      
-      // define an async function for signin after receiving the code from spotify
-      async function signin(){
-        
-        if (!auth.isAuthenticated) {
-          const code = params.get("code");
-        
-          // only signin once when access token process is done
-          if (code && !accessToken) {
-            const response = await axios.post('http://localhost:5001/signin', { code : code }, { headers : headers });
-            if (response.status === 200){
-              login();
-              setAccessToken(true);
-              navigate("/app");
-            }
-          }
-        }
-        else {
-          navigate("/app");
-        }
-      }
-
-      // call the above function
-      signin();
-
-    },
-    []
-  );
 
   if (auth?.isAuthenticated) return <Navigate to = "/app" />;
 

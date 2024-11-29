@@ -36,7 +36,7 @@ def before_request_tasks():
             # in case of options request, the server listens but does not process anything and the jwt wont exist
             if jwt:
                 jwt_header, jwt_data = jwt
-                pprint(jwt_data)
+                request.jwt_data = jwt_data
 
 
     except Exception as e:
@@ -45,21 +45,35 @@ def before_request_tasks():
     
     
 
-# # PROCESSING AFTER REQUEST IS FINISHED
+# PROCESSING AFTER REQUEST IS FINISHED
 @app.after_request
 def after_request_tasks(response):
 
-    # refresh expiring jwts
+    # refresh expiring jwts/access_tokens
     if app.config['USE_JWT']:
         jwt_data = getattr(request, "jwt_data", None)
+        new_token_info = None
 
         if jwt_data:
-            # check expiry
+
+            # check access token expiry
+            sp_oauth = app.config['SP_OAUTH']
+            if sp_oauth.is_token_expired(jwt_data):
+                new_token_info = sp_oauth.refresh_access_token(jwt_data['refresh_token'])
+                access_token = create_access_token(identity = new_token_info['access_token'], additional_claims = new_token_info)
+                set_access_cookies(response, access_token)
+
+            # check jwt expiry
             exp_timestamp = jwt_data['exp']
             now = datetime.now()
             target_timestamp = int(datetime.timestamp(now))
             if target_timestamp > exp_timestamp:
-                access_token = create_access_token(identity = get_jwt_identity())
+                # if both jwt and access_token expire
+                if new_token_info:
+                    access_token = create_access_token(identity = new_token_info['access_token'], additional_claims = new_token_info)
+                else:
+                    access_token = create_access_token(identity = get_jwt_identity())
+
                 set_access_cookies(response, access_token)
 
     return response
