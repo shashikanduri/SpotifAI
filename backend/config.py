@@ -1,4 +1,3 @@
-from datetime import timedelta
 from spotipy import SpotifyOAuth
 
 class Config:
@@ -9,17 +8,12 @@ class Config:
     CLIENT_SECRET = "df87c58d10e2449c9b77ba02db612f96"
     SPOTIFY_SCOPES = "user-read-currently-playing playlist-read-private playlist-modify-private user-read-email user-top-read"
     SPOTIFY_AUTH_URL = "https://accounts.spotify.com/authorize"
-    USE_JWT = True
-    PROTECTED_ENDPOINTS = ['spotify_api.dashboard']
-    JWT_SECRET_KEY = "aNand_SarFrazaHmadMasurkar"
-    JWT_ACCESS_TOKEN_EXPIRES = timedelta(days = 1)
-    JWT_COOKIE_SECURE = False
-    JWT_TOKEN_LOCATION = ["cookies"]
-    JWT_ACCESS_COOKIE_NAME = "sp_access_token"
-    JWT_ACCESS_CSRF_COOKIE_NAME = "sp_csrf"
     SP_OAUTH = SpotifyOAuth(
                             client_id = CLIENT_ID,
                             client_secret = CLIENT_SECRET,
                             redirect_uri = "http://localhost:5173/callback",
                             scope = SPOTIFY_SCOPES
                         )
+    SECRET_KEY = 'b7ee0e2de1b5bdede5e21bee6cce30a0ab1079a37cf3df004ebb35e7e1ea12b3'
+    SESSION_COOKIE_NAME = 'app_session'
+    SESSION_COOKIE_SECURE = False

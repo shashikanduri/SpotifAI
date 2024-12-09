@@ -1,7 +1,3 @@
-from sqlalchemy.exc import IntegrityError
-from flask_jwt_extended.exceptions import NoAuthorizationError, CSRFError
-from jwt import ExpiredSignatureError
-
 
 class UnAuthorized(Exception):
     pass
@@ -27,12 +23,8 @@ class APIError(Exception):
             self.error_description = 'Accessing a key that does not exist in object'
             self.status_code = 500
         
-        if isinstance(exception, IntegrityError):
-            self.error_description = 'Invalid foreign key value. please check insert data.'
 
-            self.message = error
-
-        if isinstance(exception, UnAuthorized) or isinstance(exception, (NoAuthorizationError, CSRFError, ExpiredSignatureError)):
+        if isinstance(exception, UnAuthorized):
             self.status_code = 401
             self.message = error
 
@@ -40,8 +32,7 @@ class APIError(Exception):
             self.status_code = exception.error_dict['status']
             self.message = exception.error_dict['message']
 
-        
-
+    
 
     def __str__(self):
         return self.exception.__str_()

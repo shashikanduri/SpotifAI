@@ -1,40 +1,35 @@
-import requests
-from flask import current_app, Request
-import base64
-from spotipy import Spotify, SpotifyOAuth
+from flask import current_app
+from spotipy import Spotify
 from main.api_exceptions import SpotifyError
 from pprint import pprint
-from config import Config
 
 
 # get access token on signin
 def get_access_token(code : str) -> dict:
 
-    token_info = current_app.config['SP_OAUTH'].get_access_token(code = code, as_dict = True)
+    token_info = current_app.config['SP_OAUTH'].get_access_token(code = code, check_cache = False, as_dict = True)
 
     # USER INFO
     sp = Spotify(auth = token_info['access_token'])
-    user_info = sp.me()
-    token_info['user_id'] = user_info['id']
-    token_info['user_name'] = user_info['display_name']
+    user_info = sp.current_user()
     
-    if token_info:
-        return token_info
+    if token_info and user_info:
+        return token_info, user_info
     
     raise SpotifyError(token_info)
     
 
 # get dashboard info
-def get_dashboard_info(token_info: dict) -> dict:
+def get_dashboard_info(access_token: str) -> dict:
 
     response = {
         "playlists" : []
     }
 
-    sp = Spotify(auth = token_info['access_token'])
+    sp = Spotify(auth = access_token)
     
     # PLAYLISTS
-    playlists = sp.user_playlists(token_info['user_id'])
+    playlists = sp.current_user_playlists()
     response['playlists'] = playlists
     
     return response

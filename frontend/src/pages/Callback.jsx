@@ -30,7 +30,7 @@ function Callback(){
             
               // only signin once when access token process is done
               if (code && !accessToken) {
-                const response = await axios.post('http://localhost:5001/signin', { code : code }, { headers : headers });
+                const response = await axios.post(`${import.meta.env.VITE_APP_API_URI}/login`, { code : code }, { headers : headers });
                 if (response.status === 200){
                   login(response.data.data.user_name);
                   setAccessToken(true);

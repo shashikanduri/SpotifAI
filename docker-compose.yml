@@ -1,0 +1,18 @@
+services:
+
+  # frontend
+  frontend:
+    build:
+      context: ./frontend
+    ports:
+      - "5173:80"
+    environment:
+      - VITE_APP_API_URI=http://localhost:5001
+      - VITE_APP_URI=http://localhost:5173
+
+  # backend
+  backend:
+    build:
+      context: ./backend
+    ports:
+      - "5001:5001"

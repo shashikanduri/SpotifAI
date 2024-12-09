@@ -8,7 +8,7 @@ function Playlist({playlist}) {
       {playlist && 
         <div className = 'w-full flex justify-between p-8 items-center'>
           <div className = 'flex items-center justify-between gap-4'>
-              <img src = {playlist.images[2].url} />
+              <img src = { playlist.images[0]?.url ?? "" } width = "60" height = "60" />
               <p>{playlist.name}</p>
           </div>
           <a 

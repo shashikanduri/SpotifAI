@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { FaCircleUser } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
-
+import axios from "axios";
 
 const Nav = () => {
 
@@ -14,9 +14,15 @@ const Nav = () => {
     setMobileView(window.innerWidth < 1022)
   );
 
-  function handleLogout(){
+  async function handleLogout(){
+
+    // clear context
     logout();
-    navigate("/");
+
+    // backend logout to clear session
+    const response = await axios.get(`${import.meta.env.VITE_APP_API_URI}/logout`);
+    if (response.status_code === 200) navigate("/");
+
   }
 
   return (
@@ -39,12 +45,14 @@ const Nav = () => {
                   { auth.user && <li> <p className = "font-bold">Welcome, {auth.user}</p> </li> }
                   <li>
                       { auth.isAuthenticated && 
-                      <button 
-                        className = "md:py-4 py-2 flex gap-2 hover:text-secondary"
+                      <a 
+                        className = "md:py-4 py-2 flex gap-2 hover:text-secondary cursor-pointer"
                         onClick = {handleLogout}
+                        href = "https://accounts.spotify.com/logout"
+                        target = "_blank"
                       >
                           Sign out <FaCircleUser className = "text-xl" />
-                      </button>
+                      </a>
                       }
                   </li>
                 </ul>

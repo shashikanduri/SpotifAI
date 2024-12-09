@@ -8,11 +8,11 @@ axios.defaults.withCredentials = true;
 const Home = () => {
 
   const { auth } = useAuth();
-
+  
   async function handleSubmit(e) {
 
     // take user to spotify auth page 
-    const response = await axios.get('http://localhost:5001/get-client');
+    const response = await axios.get(`${import.meta.env.VITE_APP_API_URI}/get-client`);
     if (response.status === 200 && response.data !== null) {
       
       // build spotify auth url for spotify login
@@ -21,7 +21,7 @@ const Home = () => {
         const data = {
           client_id: response.data.client_id,
           response_type: "code",
-          redirect_uri: "http://localhost:5173/callback",
+          redirect_uri: `${import.meta.env.VITE_APP_URI}/callback`,
           state: "shashi",
           scope: response.data.scope,
           show_dialog: true
@@ -47,7 +47,7 @@ const Home = () => {
           <h2>
             Spotify playlists come to life! Log in with your Spotify account to unlock powerful playlist analysis
             powered by advanced language models. Discover trends, gain insights, and enhance your listening experience like never before.
-            Ready to explore the music behind the numbers? Log in now and start analyzing!"
+            Ready to explore the music behind the numbers? Log in now and start analyzing! shashi
             <br />
             <br />
           </h2>
