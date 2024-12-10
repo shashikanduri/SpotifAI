@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { useNavigate, useSearchParams, Navigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 axios.defaults.withCredentials = true;
 
@@ -12,27 +12,12 @@ const Home = () => {
   async function handleSubmit(e) {
 
     // take user to spotify auth page 
-    const response = await axios.get(`${import.meta.env.VITE_APP_API_URI}/get-client`);
-    if (response.status === 200 && response.data !== null) {
-      
-      // build spotify auth url for spotify login
-      const base_url = response.data?.spotify_auth_url ?? null;
-      if (base_url !== null) {
-        const data = {
-          client_id: response.data.client_id,
-          response_type: "code",
-          redirect_uri: `${import.meta.env.VITE_APP_URI}/callback`,
-          state: "shashi",
-          scope: response.data.scope,
-          show_dialog: true
-        };
-        const query_params = new URLSearchParams(data);
-        const spotify_auth_url = `${base_url}?${query_params.toString()}`
-
-        // go to the url
-        window.location.href = spotify_auth_url;
-
-      }
+    const response = await axios.get(`${import.meta.env.VITE_APP_API_URI}/authorize`);
+    if (response.status !== 200 ){
+      console.log(response);
+    }
+    else{
+      window.location = response.data?.url;
     }
   }
 

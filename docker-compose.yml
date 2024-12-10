@@ -6,9 +6,6 @@ services:
       context: ./frontend
     ports:
       - "5173:80"
-    environment:
-      - VITE_APP_API_URI=http://localhost:5001
-      - VITE_APP_URI=http://localhost:5173
 
   # backend
   backend:
