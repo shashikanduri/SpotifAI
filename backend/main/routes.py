@@ -1,6 +1,5 @@
 from flask import Blueprint, jsonify, current_app, request, session, redirect
 from pprint import pprint
-from .decorators import require_params
 from main import utils
 from main.api_exceptions import APIError
 import traceback
