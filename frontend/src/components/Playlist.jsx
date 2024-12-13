@@ -6,7 +6,7 @@ function Playlist({playlist}) {
   return (
     <>
       {playlist && 
-        <div className = 'w-full flex justify-between p-8 items-center'>
+        <div className = 'w-full flex justify-between p-6 items-center'>
           <div className = 'flex items-center justify-between gap-4'>
               <img src = { playlist.images[0]?.url ?? "" } width = "60" height = "60" />
               <p>{playlist.name}</p>

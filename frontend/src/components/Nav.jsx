@@ -37,7 +37,7 @@ const Nav = () => {
                 id="menu"
             >
                 <ul 
-                  className={`w-full pt-4 text-base items-center font-medium text-primary flex ${
+                  className={`w-full pt-4 text-base items-center font-medium text-white flex ${
                     auth.user ? 'justify-between' : 'justify-end'
                   } lg:pt-0`}
                 >
