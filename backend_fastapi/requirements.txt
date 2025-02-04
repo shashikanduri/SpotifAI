@@ -1,8 +1,0 @@
-Flask
-Spotipy
-gunicorn
-boto3
-flask_cors
-flask_sqlalchemy
-SQLAlchemy
-python-dotenv

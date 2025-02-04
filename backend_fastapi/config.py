@@ -1,14 +1,17 @@
+from pydantic_settings import BaseSettings
+from spotipy import SpotifyOAuth
+from app import app
 
-class Config:
+class Settings(BaseSettings):
 
-    CLIENT_ID = "a57beb060c7a4a00b0794bfe983fede8"
-    CLIENT_SECRET = "df87c58d10e2449c9b77ba02db612f96"
-    SPOTIFY_SCOPES = "user-read-currently-playing playlist-read-private playlist-modify-private user-read-email user-top-read"
-    SPOTIFY_AUTH_URL = "https://accounts.spotify.com/authorize"
-    FE_URL = "http://localhost:5173/callback"
-    SECRET_KEY = 'b7ee0e2de1b5bdede5e21bee6cce30a0ab1079a37cf3df004ebb35e7e1ea12b3'
-    SESSION_COOKIE_NAME = 'app_session'
-    SESSION_COOKIE_SECURE = False
-    SERVER_NAME = "localhost:5001"
-    APPLICATION_ROOT = "/"
-    PREFERRED_URL_SCHEME = 'http'
+    client_id = "a57beb060c7a4a00b0794bfe983fede8"
+    client_secret = "df87c58d10e2449c9b77ba02db612f96"
+    spotify_scopes = "user-read-currently-playing playlist-read-private playlist-modify-private user-read-email user-top-read"
+    spotify_oauth_url = "https://accounts.spotify.com/authorize"
+
+    spotify_oauth = SpotifyOAuth(
+                        client_id = client_id,
+                        client_secret = client_secret,
+                        redirect_uri = app.url_path_for('spotify_api.callback', _external = True),
+                        scope = spotify_scopes
+                    )
