@@ -5,7 +5,6 @@ from .dependencies import settings
 from urllib.parse import urlencode, urljoin
 from fastapi import APIRouter, HTTPException, status
 
-# spotify_api = Blueprint('spotify_api', __name__)
 
 spotify_api = APIRouter()
 

@@ -1,6 +1,5 @@
 from pydantic_settings import BaseSettings
 from spotipy import SpotifyOAuth
-from app import app
 
 class Settings(BaseSettings):
 
@@ -8,10 +7,11 @@ class Settings(BaseSettings):
     client_secret = "df87c58d10e2449c9b77ba02db612f96"
     spotify_scopes = "user-read-currently-playing playlist-read-private playlist-modify-private user-read-email user-top-read"
     spotify_oauth_url = "https://accounts.spotify.com/authorize"
+    redirect_uri: str
 
     spotify_oauth = SpotifyOAuth(
                         client_id = client_id,
                         client_secret = client_secret,
-                        redirect_uri = app.url_path_for('spotify_api.callback', _external = True),
+                        redirect_uri = redirect_uri,
                         scope = spotify_scopes
                     )
